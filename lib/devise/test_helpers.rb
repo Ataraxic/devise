@@ -45,6 +45,8 @@ module Devise
     def sign_in(resource_or_scope, resource=nil)
       scope    ||= Devise::Mapping.find_scope!(resource_or_scope)
       resource ||= resource_or_scope
+      puts "!SCOPE! #{scope} #{scope.nil?}"
+      puts "#RESOURCE# #{resource} #{resource.nil?}"
       warden.session_serializer.store(resource, scope)
     end
 
@@ -60,6 +62,8 @@ module Devise
       scope = Devise::Mapping.find_scope!(resource_or_scope)
       @controller.instance_variable_set(:"@current_#{scope}", nil)
       user = warden.instance_variable_get(:@users).delete(scope)
+      puts "!!!SIGN_OUT_SCOPE!!! #{scope}"
+      puts "!!!USER_AFTER_SIGN_OUT!!! #{user} #{!!user}"
       warden.session_serializer.delete(scope, user)
     end
 
