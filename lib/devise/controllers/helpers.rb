@@ -53,6 +53,11 @@ module Devise
           end
 
           def current_#{mapping}
+            puts 'warden in define_helpers'
+            puts warden
+            if warden.nil? 
+              puts 'request.env', request.env
+            end
             @current_#{mapping} ||= warden.authenticate(:scope => :#{mapping})
           end
 
@@ -112,7 +117,8 @@ module Devise
         options  = args.extract_options!
         scope    = Devise::Mapping.find_scope!(resource_or_scope)
         resource = args.last || resource_or_scope
-
+        puts "!SCOPE! #{scope} #{scope.nil?}"
+        puts "#RESOURCE# #{resource} #{resource.nil?}" 
         expire_session_data_after_sign_in!
 
         if options[:bypass]
@@ -143,7 +149,8 @@ module Devise
         warden.logout(scope)
         warden.clear_strategies_cache!(:scope => scope)
         instance_variable_set(:"@current_#{scope}", nil)
-
+        puts "!!!SIGN_OUT_SCOPE!!! #{scope}"
+        puts "!!!USER_AFTER_SIGN_OUT!!! #{user} #{!!user}"
         !!user
       end
 
