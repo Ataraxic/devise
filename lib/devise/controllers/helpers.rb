@@ -66,6 +66,7 @@ module Devise
           end
         METHODS
 
+
         ActiveSupport.on_load(:action_controller) do
           helper_method "current_#{mapping}", "#{mapping}_signed_in?", "#{mapping}_session"
         end
